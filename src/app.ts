@@ -1,75 +1,25 @@
-// Створіть об'єкт Key
+class UseStatic {
+	private static count = 0;
 
-// є тільки властивість signature
-// під час створення об'єкта генерує випадкове число та зберігає його у signature
-// метод getSignature повертає випадкове число з signature
-
-class Key {
-	private signature: number;
 	constructor() {
-		this.signature = Math.random();
+		UseStatic.count += 1;
 	}
-	public getSignature(): number {
-		return this.signature;
+
+	public static isStaticMethod() {
+		console.log('I`m static');
 	}
-}
 
-// Створіть об'єкт Person
-
-// конструктор приймає ключ класу Key і зберігає його у властивість key
-// метод getKey повертає key
-
-class Person {
-	constructor(private key: Key) {}
-	getKey(): Key {
-		return this.key;
+	public showCount() {
+		console.log(UseStatic.count);
 	}
 }
 
-// Створіть абстрактний клас House, в ньому повинна бути наступна логіка
+const obj1 = new UseStatic();
+const obj2 = new UseStatic();
+const obj3 = new UseStatic();
 
-// властивість door – вона може бути закрита, або відкрита.
-// властивість key – об'єкт класу Key.
-// конструктор приймає аргумент класу Key та зберігає його у властивість key.
-// метод comeIn, який додає об'єкт класу Person у властивість tenants і це спрацьовує лише, якщо door відкрита.
-// абстрактний метод openDoor приймає аргумент класу Key
+obj1.showCount();
+obj2.showCount();
+obj3.showCount();
 
-abstract class House {
-	protected door = false;
-	private tenants: Person[] = [];
-	constructor(protected key: Key) {}
-
-	comeIn(person: Person): void {
-		if (!this.door) {
-			throw new Error('Door is close');
-		}
-		this.tenants.push(person);
-		console.log('Person inside');
-	}
-	abstract openDoor(key: Key): boolean;
-}
-
-// Створіть клас MyHouse, який реалізує клас House
-
-// створюємо метод openDoor, оскільки він приймає ключ, звіряємо збережений ключ у властивості key чи дорівнює він ключу з аргументу, якщо так, відкриваємо двері.
-
-class MyHouse extends House {
-	openDoor(key: Key) {
-		if (key.getSignature() !== this.key.getSignature()) {
-			throw new Error('Key to another door');
-		}
-
-		return (this.door = true);
-	}
-}
-
-// Зробіть так, щоб мешканець потрапив додому.
-
-const key = new Key();
-
-const house = new MyHouse(key);
-const person = new Person(key);
-
-house.openDoor(person.getKey());
-
-house.comeIn(person);
+UseStatic.isStaticMethod();
