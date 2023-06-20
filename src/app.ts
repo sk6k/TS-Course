@@ -1,48 +1,75 @@
-class House {
-	private tenants: string[] = [];
+// Створіть об'єкт Key
 
-	constructor(public readonly type: string, protected street: string) {}
+// є тільки властивість signature
+// під час створення об'єкта генерує випадкове число та зберігає його у signature
+// метод getSignature повертає випадкове число з signature
 
-	public showAddress(this: House): void {
-		console.log('Address' + ' ' + this.street);
+class Key {
+	private signature: number;
+	constructor() {
+		this.signature = Math.random();
 	}
-
-	public showType(this: House): void {
-		console.log('Type ' + this.type);
-	}
-
-	public addTenant(name: string) {
-		this.tenants.push(name);
-	}
-
-	public showTenants() {
-		console.log(this.tenants);
+	public getSignature(): number {
+		return this.signature;
 	}
 }
 
-class StoneHouse extends House {
-	private chargeOfTheHouse: string;
-	constructor(street: string, general: string) {
-		super('stone', street);
+// Створіть об'єкт Person
 
-		this.chargeOfTheHouse = general;
-	}
+// конструктор приймає ключ класу Key і зберігає його у властивість key
+// метод getKey повертає key
 
-	public showAddress(): void {
-		console.log('Address' + ' ' + this.street);
-	}
-
-	public showTenants() {
-		console.log('General: ' + this.chargeOfTheHouse);
-
-		super.showTenants();
+class Person {
+	constructor(private key: Key) {}
+	getKey(): Key {
+		return this.key;
 	}
 }
 
-const stoneHouse = new StoneHouse('Stone-world', 'Max');
+// Створіть абстрактний клас House, в ньому повинна бути наступна логіка
 
-stoneHouse.addTenant('Kiwi');
+// властивість door – вона може бути закрита, або відкрита.
+// властивість key – об'єкт класу Key.
+// конструктор приймає аргумент класу Key та зберігає його у властивість key.
+// метод comeIn, який додає об'єкт класу Person у властивість tenants і це спрацьовує лише, якщо door відкрита.
+// абстрактний метод openDoor приймає аргумент класу Key
 
-stoneHouse.addTenant('Ajax');
+abstract class House {
+	protected door = false;
+	private tenants: Person[] = [];
+	constructor(protected key: Key) {}
 
-stoneHouse.showTenants();
+	comeIn(person: Person): void {
+		if (!this.door) {
+			throw new Error('Door is close');
+		}
+		this.tenants.push(person);
+		console.log('Person inside');
+	}
+	abstract openDoor(key: Key): boolean;
+}
+
+// Створіть клас MyHouse, який реалізує клас House
+
+// створюємо метод openDoor, оскільки він приймає ключ, звіряємо збережений ключ у властивості key чи дорівнює він ключу з аргументу, якщо так, відкриваємо двері.
+
+class MyHouse extends House {
+	openDoor(key: Key) {
+		if (key.getSignature() !== this.key.getSignature()) {
+			throw new Error('Key to another door');
+		}
+
+		return (this.door = true);
+	}
+}
+
+// Зробіть так, щоб мешканець потрапив додому.
+
+const key = new Key();
+
+const house = new MyHouse(key);
+const person = new Person(key);
+
+house.openDoor(person.getKey());
+
+house.comeIn(person);
