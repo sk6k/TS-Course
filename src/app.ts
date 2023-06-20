@@ -1,25 +1,30 @@
-class UseStatic {
-	private static count = 0;
+abstract class Plane {
+	protected pilotInCabin = false;
 
-	constructor() {
-		UseStatic.count += 1;
+	public sitInPlane() {
+		this.pilotInCabin = true;
 	}
 
-	public static isStaticMethod() {
-		console.log('I`m static');
-	}
+	public abstract startEngine(): string;
+}
 
-	public showCount() {
-		console.log(UseStatic.count);
+class Maize extends Plane {
+	public startEngine(): string {
+		return 'ta-ta-ta';
 	}
 }
 
-const obj1 = new UseStatic();
-const obj2 = new UseStatic();
-const obj3 = new UseStatic();
+class Boeing extends Plane {
+	public startEngine(): string {
+		return 'Buuuuu';
+	}
+}
 
-obj1.showCount();
-obj2.showCount();
-obj3.showCount();
+const maize = new Maize();
+const boeing = new Boeing();
 
-UseStatic.isStaticMethod();
+maize.sitInPlane();
+boeing.sitInPlane();
+
+console.log(maize.startEngine());
+console.log(boeing.startEngine());
