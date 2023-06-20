@@ -1,30 +1,8 @@
-// abstract class Plane {
-// 	protected pilotInCabin = false;
+// type AddFunc =  (n1:number, n2:number) => number
+interface AddFunc {
+	(n1: number, n2: number): number;
+}
 
-// 	public sitInPlane() {
-// 		this.pilotInCabin = true;
-// 	}
-
-// 	public abstract startEngine(): string;
-// }
-
-// class Maize extends Plane {
-// 	public startEngine(): string {
-// 		return 'ta-ta-ta';
-// 	}
-// }
-
-// class Boeing extends Plane {
-// 	public startEngine(): string {
-// 		return 'Buuuuu';
-// 	}
-// }
-
-// const maize = new Maize();
-// const boeing = new Boeing();
-
-// maize.sitInPlane();
-// boeing.sitInPlane();
-
-// console.log(maize.startEngine());
-// console.log(boeing.startEngine());
+const foo: AddFunc = (n1: number, n2: number) => {
+	return n1 + n2;
+};
