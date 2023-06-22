@@ -1,8 +1,43 @@
-// type AddFunc =  (n1:number, n2:number) => number
-interface AddFunc {
-	(n1: number, n2: number): number;
+type Admin = {
+	name: string;
+	privileges: string[];
+};
+
+type User = {
+	name: string;
+	startDate: Date;
+};
+
+type AdminUser = Admin & User;
+
+const user: AdminUser = {
+	name: 'rfgr',
+	privileges: ['kkj', 'kkj'],
+	startDate: new Date(),
+};
+
+console.log(user);
+
+//////////////////////////////////////////
+
+interface iAdmin {
+	name: string;
+	privileges: string[];
 }
 
-const foo: AddFunc = (n1: number, n2: number) => {
-	return n1 + n2;
+interface iUser {
+	name: string;
+	startDate: Date;
+}
+
+// type AdminUser_ = iAdmin & iUser;
+
+interface iAdminUser extends iAdmin, iUser {}
+
+const iuser: iAdminUser = {
+	name: 'rfgggggggggggggr',
+	privileges: ['kggggggggkj', 'kgggggggggkj'],
+	startDate: new Date(),
 };
+
+console.log(iuser);
