@@ -1,23 +1,29 @@
-function merge<T, U>(objA: T, objB: U) {
-	return Object.assign({}, objA, objB);
+// function merge<T extends object, U extends object>(objA: T, objB: U) {
+// 	return Object.assign({}, objA, objB);
+// }
+
+// const toMerge1 = {
+// 	name: 'Max',
+// };
+
+// const toMerge2 = {
+// 	age: 21,
+// };
+
+// const merged = merge(toMerge1, toMerge2);
+
+// merged.name;
+
+interface ILength {
+	length: number;
 }
 
-type Person = {
-	name: string;
+function getLength<T extends ILength>(str: T): number {
+	return str.length;
+}
+
+const obj = {
+	length: 10,
 };
 
-type AdditionFields = {
-	age: number;
-};
-
-const toMerge1 = {
-	name: 'Max',
-};
-
-const toMerge2 = {
-	age: 21,
-};
-
-const merged = merge<Person, AdditionFields>(toMerge1, toMerge2);
-
-merged.name;
+getLength(obj);
