@@ -1,43 +1,31 @@
-type Admin = {
-	name: string;
-	privileges: string[];
-};
-
-type User = {
-	name: string;
-	startDate: Date;
-};
-
-type AdminUser = Admin & User;
-
-const user: AdminUser = {
-	name: 'rfgr',
-	privileges: ['kkj', 'kkj'],
-	startDate: new Date(),
-};
-
-console.log(user);
-
-//////////////////////////////////////////
-
-interface iAdmin {
+interface Admin {
 	name: string;
 	privileges: string[];
 }
 
-interface iUser {
+interface User {
 	name: string;
 	startDate: Date;
 }
 
-// type AdminUser_ = iAdmin & iUser;
+/*
 
-interface iAdminUser extends iAdmin, iUser {}
+type ComplexType = string | number;
 
-const iuser: iAdminUser = {
-	name: 'rfgggggggggggggr',
-	privileges: ['kggggggggkj', 'kgggggggggkj'],
-	startDate: new Date(),
-};
+function combine(a: ComplexType, b: ComplexType) {
+	if (typeof a === 'string' || typeof b === 'string') {
+		return a.toString() + b.toString();
+	}
+	return a + b;
+}
 
-console.log(iuser);
+console.log(combine(1, '2'));
+*/
+
+type AdminOrUser = Admin | User;
+
+function showFields(el: AdminOrUser) {
+	if ('startDate' in el) {
+		console.log(el.startDate);
+	}
+}
